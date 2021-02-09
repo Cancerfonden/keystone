@@ -83,6 +83,7 @@ module.exports = Field.create({
 			this.editor.addButton(button.name, {
 				icon: button.icon,
 				tooltip: button.tooltip,
+				image: button.image,
 				onclick: () => {
 					if (button.insertContent) {
 						this.editor.insertContent(button.insertContent);

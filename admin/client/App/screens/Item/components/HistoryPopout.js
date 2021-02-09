@@ -1,6 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
-import { connect } from 'react-redux';
 import moment from 'moment';
 
 import Popout from '../../../shared/Popout';
@@ -10,16 +8,16 @@ export default React.createClass({
 	displayName: 'HistoryPopout',
 	propTypes: {
 		data: React.PropTypes.object,
-		list: React.PropTypes.object
-    },
-    getInitialState () {
-        return {
-            selectedRev: this.props.rev
-        };
-    },
+		list: React.PropTypes.object,
+	},
+	getInitialState () {
+		return {
+			selectedRev: this.props.rev,
+		};
+	},
 	setSelectedRevision (rev) {
 		this.setState({
-			selectedRev: rev
+			selectedRev: rev,
 		});
 	},
 	historyColumns () {
@@ -42,8 +40,8 @@ export default React.createClass({
 				? i === 0
 				: selectedRev._id === r._id;
 
-            const name = r.u ? `${r.u.name.first} ${r.u.name.last}`.trim() : "n/a";
-            const label = `${moment(r.t).format('LLL')} (${name})`;
+			const name = r.u ? `${r.u.name.first} ${r.u.name.last}`.trim() : 'n/a';
+			const label = `${moment(r.t).format('LLL')} (${name})`;
 
 			return (<PopoutList.Item
 				key={'rev_' + i}
@@ -53,36 +51,36 @@ export default React.createClass({
 				label={label}
 				onClick={() => { this.setSelectedRevision(r); }} />
 			);
-		})
-    },
-    renderFooter () {
-        const { revisions } = this.props.data.history;
+		});
+	},
+	renderFooter () {
+		const { revisions } = this.props.data.history;
 
-        if (revisions == null || revisions.length === 0) {
-            return;
-        }
+		if (revisions == null || revisions.length === 0) {
+			return;
+		}
 
-        if (this.state.selectedRev) {
-            return (
-                <Popout.Footer
+		if (this.state.selectedRev) {
+			return (
+				<Popout.Footer
 					primaryButtonAction={() => this.props.onApply(this.state.selectedRev)}
 					primaryButtonLabel="Apply"
 					secondaryButtonAction={this.onCancel}
 					secondaryButtonLabel="Cancel" />
-            );
-        } else {
-            return (
-                <Popout.Footer
+			);
+		} else {
+			return (
+				<Popout.Footer
 					secondaryButtonAction={this.onCancel}
 					secondaryButtonLabel="Cancel" />
-            );
-        }
-    },
-    onCancel () {
-        this.setState(this.getInitialState());
+			);
+		}
+	},
+	onCancel () {
+		this.setState(this.getInitialState());
 
-        this.props.onCancel();
-    },
+		this.props.onCancel();
+	},
 	render () {
 		if (!this.props.list.history) {
 			return;

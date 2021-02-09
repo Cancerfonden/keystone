@@ -11,12 +11,12 @@ import evalDependsOn from '../../utils/evalDependsOn';
 
 var lastId = 0;
 
-function getId() {
+function getId () {
 	return 'keystone-html-' + lastId++;
 }
 
 // Workaround for #2834 found here https://github.com/tinymce/tinymce/issues/794#issuecomment-203701329
-function removeTinyMCEInstance(editor) {
+function removeTinyMCEInstance (editor) {
 	var oldLength = tinymce.editors.length;
 	tinymce.remove(editor);
 	if (oldLength === tinymce.editors.length) {
@@ -31,7 +31,7 @@ module.exports = Field.create({
 		type: 'Html',
 	},
 
-	getInitialState() {
+	getInitialState () {
 		return {
 			id: getId(),
 			isFocused: false,
@@ -39,7 +39,7 @@ module.exports = Field.create({
 		};
 	},
 
-	initWysiwyg() {
+	initWysiwyg () {
 		if (!this.props.wysiwyg) return;
 
 		var self = this;
@@ -61,28 +61,28 @@ module.exports = Field.create({
 		}
 	},
 
-	removeWysiwyg(state) {
+	removeWysiwyg (state) {
 		removeTinyMCEInstance(tinymce.get(state.id));
 		this.setState({ wysiwygActive: false });
 	},
 
-	setupCustomButtons() {
+	setupCustomButtons () {
 		const buttons = Keystone.wysiwyg.options.customButtons || [];
 
 		for (const button of buttons) {
 			this.editor.addButton(button.name, {
 				icon: button.icon,
 				tooltip: button.tooltip,
-				onclick: function () {
+				onclick: () => {
 					if (button.insertContent) {
-						this.editor.insertContent(button.insertContent)
+						this.editor.insertContent(button.insertContent);
 					}
-				}
+				},
 			});
 		}
 	},
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate (prevProps, prevState) {
 		if (prevState.isCollapsed && !this.state.isCollapsed) {
 			this.initWysiwyg();
 		}
@@ -98,23 +98,23 @@ module.exports = Field.create({
 		}
 	},
 
-	componentDidMount() {
+	componentDidMount () {
 		this.initWysiwyg();
 	},
 
-	componentWillReceiveProps(nextProps) {
+	componentWillReceiveProps (nextProps) {
 		if (this.editor && this._currentValue !== nextProps.value) {
 			this.editor.setContent(nextProps.value);
 		}
 	},
 
-	focusChanged(focused) {
+	focusChanged (focused) {
 		this.setState({
 			isFocused: focused,
 		});
 	},
 
-	valueChanged(event) {
+	valueChanged (event) {
 		var content;
 		if (this.editor) {
 			content = this.editor.getContent();
@@ -129,7 +129,7 @@ module.exports = Field.create({
 		});
 	},
 
-	getOptions() {
+	getOptions () {
 		var plugins = ['code', 'link'];
 		var options = Object.assign(
 			{},
@@ -204,7 +204,7 @@ module.exports = Field.create({
 		return opts;
 	},
 
-	renderField() {
+	renderField () {
 		var className = this.state.isFocused ? 'is-focused' : '';
 		var style = {
 			height: this.props.height,
@@ -224,7 +224,7 @@ module.exports = Field.create({
 		);
 	},
 
-	renderValue() {
+	renderValue () {
 		return (
 			<FormInput multiline noedit>
 				{this.props.value}

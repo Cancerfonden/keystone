@@ -70,12 +70,12 @@ module.exports = Field.create({
 		const buttons = Keystone.wysiwyg.options.customButtons || [];
 
 		for (const button of buttons) {
-			self.editor.addButton(button.name, {
+			this.editor.addButton(button.name, {
 				icon: button.icon,
 				tooltip: button.tooltip,
 				onclick: function () {
 					if (button.insertContent) {
-						self.editor.insertContent(button.insertContent)
+						this.editor.insertContent(button.insertContent)
 					}
 				}
 			});

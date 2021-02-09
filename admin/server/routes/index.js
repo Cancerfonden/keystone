@@ -4,7 +4,7 @@ var path = require('path');
 
 var templatePath = path.resolve(__dirname, '../templates/index.html');
 
-module.exports = function IndexRoute (req, res) {
+module.exports = function IndexRoute(req, res) {
 	var keystone = req.keystone;
 	var lists = {};
 	_.forEach(keystone.lists, function (list, key) {
@@ -44,6 +44,7 @@ module.exports = function IndexRoute (req, res) {
 		wysiwyg: {
 			options: {
 				customButtons: keystone.get('wysiwyg custom buttons') || [],
+				customIcons: keystone.get('wysiwyg custom icons') || [],
 				enableImages: keystone.get('wysiwyg images') ? true : false,
 				enableCloudinaryUploads: keystone.get('wysiwyg cloudinary images') ? true : false,
 				enableS3Uploads: keystone.get('wysiwyg s3 images') ? true : false,

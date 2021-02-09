@@ -48,7 +48,6 @@ module.exports = Field.create({
 		opts.setup = function (editor) {
 			self.editor = editor;
 
-			self.setupCustomIcons();
 			self.setupCustomButtons();
 
 			editor.on('change', self.valueChanged);
@@ -66,14 +65,6 @@ module.exports = Field.create({
 	removeWysiwyg(state) {
 		removeTinyMCEInstance(tinymce.get(state.id));
 		this.setState({ wysiwygActive: false });
-	},
-
-	setupCustomIcons() {
-		const icons = Keystone.wysiwyg.options.customIcons || [];
-
-		for (const icon of icons) {
-			this.editor.ui.registry.addIcon(icon.name, icon.svg);
-		}
 	},
 
 	setupCustomButtons() {

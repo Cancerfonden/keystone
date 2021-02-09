@@ -44,7 +44,6 @@ module.exports = function IndexRoute(req, res) {
 		wysiwyg: {
 			options: {
 				customButtons: keystone.get('wysiwyg custom buttons') || [],
-				customIcons: keystone.get('wysiwyg custom icons') || [],
 				enableImages: keystone.get('wysiwyg images') ? true : false,
 				enableCloudinaryUploads: keystone.get('wysiwyg cloudinary images') ? true : false,
 				enableS3Uploads: keystone.get('wysiwyg s3 images') ? true : false,

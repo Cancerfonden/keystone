@@ -9,11 +9,9 @@ import HistoryPopout from './HistoryPopout';
 import { Link } from 'react-router';
 
 import Drilldown from './Drilldown';
-import Popout from '../../../shared/Popout';
-import PopoutList from '../../../shared/Popout/PopoutList';
 import { GlyphButton, ResponsiveText } from '../../../elemental';
 
-import { loadItemRevision } from '../actions'
+import { loadItemRevision } from '../actions';
 
 export const EditFormHeader = React.createClass({
 	displayName: 'EditFormHeader',
@@ -26,7 +24,7 @@ export const EditFormHeader = React.createClass({
 		return {
 			searchString: '',
 			isHistoryOpen: false,
-			rev: null
+			rev: null,
 		};
 	},
 	toggleCreate (visible) {
@@ -136,10 +134,10 @@ export const EditFormHeader = React.createClass({
 		if (this.props.list.history) {
 			buttons.push(this.renderHistoryButton());
 			buttons.push(this.renderHistoryPopout());
-			buttons.push(" ");
+			buttons.push(' ');
 		}
 
-		buttons.push(this.renderCreateButton())
+		buttons.push(this.renderCreateButton());
 
 		return (
 			<ToolbarSection right>
@@ -149,7 +147,7 @@ export const EditFormHeader = React.createClass({
 	},
 	toggleHistory (value) {
 		this.setState({
-			isHistoryOpen: value
+			isHistoryOpen: value,
 		});
 	},
 	applyRevision (rev) {
@@ -163,7 +161,7 @@ export const EditFormHeader = React.createClass({
 			</GlyphButton>
 		);
 	},
-	renderHistoryPopout() {
+	renderHistoryPopout () {
 		if (!this.props.list.history) {
 			return;
 		}

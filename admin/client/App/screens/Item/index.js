@@ -75,8 +75,8 @@ var ItemView = React.createClass({
 	},
 	toggleHistory () {
 		this.setState({
-			historyIsOpen: true
-		})
+			historyIsOpen: true,
+		});
 	},
 	// Render this items relationships
 	renderRelationships () {

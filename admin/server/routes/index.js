@@ -54,7 +54,7 @@ module.exports = function IndexRoute (req, res) {
 				skin: keystone.get('wysiwyg skin') || 'keystone',
 				menubar: keystone.get('wysiwyg menubar'),
 				importcss: keystone.get('wysiwyg importcss') || '',
-			}
+			},
 		},
 	};
 	keystoneData.csrf.header[keystone.security.csrf.CSRF_HEADER_KEY] = keystone.security.csrf.getToken(req, res);

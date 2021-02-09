@@ -94,16 +94,16 @@ export function loadItemRevision ({ revId }) {
 			if (err || !revData) {
 				dispatch(dataLoadingError(err));
 			} else {
-				const data = assign({}, 
+				const data = assign({},
 					getState().item.data,
 					revData.data,
 					{ rev: revData.revision }
 				);
-				
+
 				dispatch(dataLoaded(data));
 			}
 		});
-	}
+	};
 }
 
 /**

@@ -131,6 +131,10 @@ export const EditFormHeader = React.createClass({
 	renderInfo () {
 		const buttons = [];
 
+		if (this.props.list.canDuplicate) {
+			buttons.push(this.renderDuplicateButton());
+		}
+
 		if (this.props.list.history) {
 			buttons.push(this.renderHistoryButton());
 			buttons.push(this.renderHistoryPopout());
@@ -190,6 +194,26 @@ export const EditFormHeader = React.createClass({
 		return (
 			<GlyphButton data-e2e-item-create-button="true" color="success" glyph="plus" position="left" {...props}>
 				<ResponsiveText hiddenXS={`New ${singular}`} visibleXS="Create" />
+			</GlyphButton>
+		);
+	},
+	renderDuplicateButton () {
+		const { canDuplicate, path, singular } = this.props.list;
+		const { id } = this.props.data;
+
+		if (!canDuplicate || !id) return null;
+
+		return (
+			<GlyphButton
+				color="default"
+				glyph="versions"
+				position="left"
+				style={{ marginRight: '4px' }}
+				href={`${Keystone.adminPath}/${path}/duplicate/${id}`}>
+				<ResponsiveText
+					hiddenXS={`Duplicate ${singular}`}
+					visibleXS='Duplicate'
+				/>
 			</GlyphButton>
 		);
 	},

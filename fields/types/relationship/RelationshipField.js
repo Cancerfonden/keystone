@@ -1,9 +1,14 @@
 import async from 'async';
 import Field from '../Field';
 import { listsByKey } from '../../../admin/client/utils/lists';
-import React from 'react';
-import Select from 'react-select';
+import React, { Children } from 'react';
+import Select, { components } from 'react-select';
 import xhr from 'xhr';
+import {
+  SortableContainer,
+  SortableElement,
+  SortableHandle,
+} from 'react-sortable-hoc';
 import {
 	Button,
 	FormInput,
@@ -11,6 +16,16 @@ import {
 	InlineGroupSection as Section,
 } from '../../../admin/client/App/elemental';
 import _ from 'lodash';
+
+function arrayMove (array, from, to) {
+  const slicedArray = array.slice();
+  slicedArray.splice(
+    to < 0 ? array.length + to : to,
+    0,
+    slicedArray.splice(from, 1)[0]
+  );
+  return slicedArray;
+}
 
 function compareValues (current, next) {
 	const currentLength = current ? current.length : 0;
@@ -21,6 +36,39 @@ function compareValues (current, next) {
 	}
 	return true;
 }
+
+const SortableMultiValue = SortableElement((props) => {
+	const { children, onRemove, value } = props;
+	console.log(props);
+
+	return (
+		<div className="Select-value" title={value.name}>
+			<span
+				className="Select-value-icon"
+				aria-hidden="true"
+				onClick={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					onRemove(value);
+				}}
+			>
+				×
+			</span>
+			<a href={value.href} className="Select-value-label">
+				{children}
+			</a>
+			<span
+				className="Select-value-icon"
+				aria-hidden="true"
+				style={{ cursor: 'move' }}
+			>
+				::
+			</span>
+		</div>
+	);
+});
+
+const SortableAsync = SortableContainer(Select.Async);
 
 module.exports = Field.create({
 	displayName: 'RelationshipField',
@@ -183,13 +231,22 @@ module.exports = Field.create({
 		const inputName = this.getInputName(this.props.path);
 		const emptyValueInput = (this.props.many && (!this.state.value || !this.state.value.length) || (!this.props.many && !this.state.value))
 			? <input type="hidden" name={inputName} value="" /> : null;
+
+		const onSortEnd = ({ oldIndex, newIndex }) => {
+			if (!Array.isArray(this.state.value)) return;
+			const newValue = arrayMove(this.state.value, oldIndex, newIndex);
+			this.valueChanged(newValue.map(i => i.id).join(','));
+		};
+
 		return (
 			<div>
 				{/* This input ensures that an empty value is submitted when no related items are selected */}
 				{emptyValueInput}
 				{/* This input element fools Safari's autocorrect in certain situations that completely break react-select */}
 				<input type="text" style={{ position: 'absolute', width: 1, height: 1, zIndex: -1, opacity: 0 }} tabIndex="-1"/>
-				<Select.Async
+				<SortableAsync
+					axis="xy"
+					distance={8}
 					multi={this.props.many}
 					disabled={noedit}
 					loadOptions={this.loadOptions}
@@ -199,6 +256,12 @@ module.exports = Field.create({
 					simpleValue
 					value={this.state.value}
 					valueKey="id"
+					valueComponent={(props) => {
+						const index = props.values.indexOf(props.value);
+						return <SortableMultiValue key={props.value.id} index={index} {...props} />;
+					}}
+					onSortEnd={onSortEnd}
+					getHelperDimensions={({ node }) => node.getBoundingClientRect()}
 				/>
 			</div>
 		);

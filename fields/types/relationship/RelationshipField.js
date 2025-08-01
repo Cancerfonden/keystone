@@ -255,10 +255,10 @@ module.exports = Field.create({
 					simpleValue
 					value={this.state.value}
 					valueKey="id"
-					valueComponent={(props) => {
+					valueComponent={this.props.many ? (props) => {
 						const index = props.values.indexOf(props.value);
 						return <SortableMultiValue key={props.value.id} index={index} {...props} />;
-					}}
+					} : undefined}
 					onSortEnd={onSortEnd}
 					getHelperDimensions={({ node }) => node.getBoundingClientRect()}
 				/>

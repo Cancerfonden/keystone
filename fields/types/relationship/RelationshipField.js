@@ -39,7 +39,6 @@ function compareValues (current, next) {
 
 const SortableMultiValue = SortableElement((props) => {
 	const { children, onRemove, value } = props;
-	console.log(props);
 
 	return (
 		<div className="Select-value" title={value.name}>

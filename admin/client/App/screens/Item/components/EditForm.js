@@ -38,17 +38,7 @@ function getNameFromData (data) {
 }
 
 function smoothScrollTop () {
-	var position = window.scrollY || window.pageYOffset;
-	var speed = position / 10;
-
-	if (position > 1) {
-		var newPosition = position - speed;
-
-		window.scrollTo(0, newPosition);
-		window.requestAnimationFrame(smoothScrollTop);
-	} else {
-		window.scrollTo(0, 0);
-	}
+	window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 var EditForm = React.createClass({
